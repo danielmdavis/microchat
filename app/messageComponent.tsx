@@ -1,11 +1,12 @@
 import Link from 'next/link'
 
-interface LandlordProps {
+interface MessageProps {
+  id: number,
   name: string,
   message: string
 }
 
-export default function Message(props: LandlordProps) {
+export default function Message(props: MessageProps) {
 
   return (
       <div className='message'>
