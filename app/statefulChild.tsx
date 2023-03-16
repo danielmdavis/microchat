@@ -2,7 +2,6 @@
 import _ from 'lodash'
 import { useState, useEffect } from 'react'
 import Message from './messageComponent'
-import messageJson from './messages.json'
 
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
