@@ -7,7 +7,7 @@ import messageJson from './messages.json'
 // import firebase from 'firebase/compat/app'
 // import { getFirestore, query, collection } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, doc, setDoc } from 'firebase/firestore'
+import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 
@@ -17,8 +17,6 @@ export default function InnerHome() {
   let [inputText, setInputText] = useState('')
   let [myIp, setMyIp] = useState('')
 
-
-  //
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyB-lNG6danS5wodEmWpVEmTFbcesdx3qfE",
     authDomain: "microchat-30c83.firebaseapp.com",
@@ -28,23 +26,27 @@ export default function InnerHome() {
     appId: "1:198227390543:web:f778007893bed6bf2b3a3a",
     measurementId: "G-G6QEH32V7G"
   })
-
   const db = getFirestore(firebaseApp)
-  // const messagesRef = collection(db, 'messages')
-
 
   const getAll = async () => {
     const messagesCollection = collection(db, 'messages')
     const query = await getDocs(messagesCollection)
     const messagesList = query.docs.map(doc => doc.data());
     // const [allMessages]: object[] = useCollectionData(messagesCollection)
-    console.log(messagesList)
+    setMessages(messagesList)
   }
-  getAll()
-//
+
+  const postOne = async () => {
+    await addDoc(collection(db, 'messages'), {
+      name: myIp,
+      message: inputText,
+      time: new Date()
+    })
+    setInputText('')
+  }
 
   useEffect(() => { 
-    setMessages(messageJson) 
+    getAll()
     getMyIp()
   })
 
@@ -71,9 +73,9 @@ export default function InnerHome() {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      messages.push({ 'name': myIp, 'message': inputText, 'time': new Date() })
-      setMessages(messages)
-      setInputText('')
+      // messages.push({ 'name': myIp, 'message': inputText, 'time': new Date() })
+      postOne()
+
     }
   }
 
