@@ -112,6 +112,7 @@ export default function InnerHome() {
     <div className='app'>
       {mappedMessages}
       <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName}  />
+      <span>{myIp}</span>
       <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
     </div>
   )
