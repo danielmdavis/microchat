@@ -5,7 +5,7 @@ import Message from './messageComponent'
 import messageJson from './messages.json'
 
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore'
+import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 export default function InnerHome() {
@@ -48,6 +48,14 @@ export default function InnerHome() {
       time: new Date()
     })
     setInputText('')
+  }
+
+  const postName = async () => {
+      await setDoc(doc(db, 'names', myIp), {
+        name: nameText,
+        ip: myIp
+      })
+      getAllNames()
   }
 
   useEffect(() => { 
@@ -96,7 +104,7 @@ export default function InnerHome() {
   }
   const handleSetName = (event) => {
     if (event.key === 'Enter') {
-      // postName()
+      postName()
       getAllMessages()
     }
   }
