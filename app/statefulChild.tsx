@@ -1,21 +1,20 @@
 'use client'
+import _ from 'lodash'
 import { useState, useEffect } from 'react'
 import Message from './messageComponent'
 import messageJson from './messages.json'
 
-
-// import firebase from 'firebase/compat/app'
-// import { getFirestore, query, collection } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
-
 export default function InnerHome() {
 
   let [messages, setMessages] = useState([])
+  let [names, setNames] = useState([])
   let [inputText, setInputText] = useState('')
   let [myIp, setMyIp] = useState('')
+  let [nameText, setNameText] = useState('')
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyB-lNG6danS5wodEmWpVEmTFbcesdx3qfE",
@@ -28,12 +27,18 @@ export default function InnerHome() {
   })
   const db = getFirestore(firebaseApp)
 
-  const getAll = async () => {
+  const getAllMessages = async () => {
     const messagesCollection = collection(db, 'messages')
     const query = await getDocs(messagesCollection)
     const messagesList = query.docs.map(doc => doc.data());
-    // const [allMessages]: object[] = useCollectionData(messagesCollection)
     setMessages(messagesList)
+  }
+
+  const getAllNames = async () => {
+    const namesCollection = collection(db, 'names')
+    const query = await getDocs(namesCollection)
+    const namesList = query.docs.map(doc => doc.data());
+    setNames(namesList)
   }
 
   const postOne = async () => {
@@ -46,8 +51,11 @@ export default function InnerHome() {
   }
 
   useEffect(() => { 
-    getAll()
-    getMyIp()
+    if (_.isEqual(messages, [])) {
+      getAllMessages()
+      getAllNames()
+      getMyIp()
+    }
   })
 
   const getMyIp = () => {
@@ -56,34 +64,48 @@ export default function InnerHome() {
     .then(req => req.json())
     .then(res => {
       setMyIp(res.ip)
+      setNameText(res.ip)
     })
+  }
+
+  const nameReplace = (ip) => {
+    const goodName = names.find(object => object.ip === ip) ? names.find(object => object.ip === ip).name : ip
+    return goodName
   }
 
   let id = 0
   const mappedMessages = messages.map((item) => {
     id += 1
+    const name = nameReplace(item.name)
     return(
       <Message
       key={id} 
       id={id}
-      name={item.name}
+      name={name}
+      time={item.time.seconds}
       message={item.message} />
     )
   })
+  mappedMessages.sort((a, b) => a.props.time - b.props.time)
 
-  const handleKeyDown = (event) => {
+  const handleSendMessage = (event) => {
     if (event.key === 'Enter') {
-      // messages.push({ 'name': myIp, 'message': inputText, 'time': new Date() })
       postOne()
-
+      getAllMessages()
+    }
+  }
+  const handleSetName = (event) => {
+    if (event.key === 'Enter') {
+      // postName()
+      getAllMessages()
     }
   }
 
   return (
     <div className='app'>
       {mappedMessages}
-      <div className='ip'>{myIp}</div>
-      <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleKeyDown} />
+      <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName}  />
+      <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
     </div>
   )
 }
