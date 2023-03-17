@@ -126,9 +126,7 @@ export default function Home() {
           {mappedMessages}
         </div></div>
       </div>
-      <br /><br />
-      <br /><br />
-      <br />
+      <div style={{ height: '90px' }} /> 
       <div className='footer'>
         <div>
           <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} />
