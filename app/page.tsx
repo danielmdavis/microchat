@@ -83,7 +83,7 @@ export default function Home() {
       goodName = names.find((name: any) => name.ip === ip).name
       nameStyle = 'name-good'
     } else {
-      goodName = ip
+      goodName = ip.substring(0,15)
       nameStyle = 'name-ip'
     }
     return [goodName, nameStyle]
@@ -128,10 +128,10 @@ export default function Home() {
       </div>
       <div style={{ height: '90px' }} /> 
       <div className='footer'>
-        <div>
-          <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} />
-          <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
-        </div>
+          <form>
+            <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} maxLength={20} />
+            <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
+          </form>
         <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
       </div>
     </div>
