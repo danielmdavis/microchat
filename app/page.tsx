@@ -76,7 +76,6 @@ export default function Home() {
   }
 
   const nameReplace = (ip: string) => {
-    // names.find(name => console.log(typeof name))
     const goodName = names.find((name: any) => name.ip === ip) ? names.find((name: any) => name.ip === ip).name : ip
     return goodName
   }
@@ -111,9 +110,10 @@ export default function Home() {
 
   return (
     <div className='app'>
+      <h1 style={{ marginLeft: '5px', fontStyle: 'italic' }}>Web Chat</h1>
       {mappedMessages}
       <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName}  />
-      <span>{myIp}</span>
+      <span style={{ fontSize: '0.75em', marginLeft: '5px' }}>{myIp}</span>
       <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
     </div>
   )
