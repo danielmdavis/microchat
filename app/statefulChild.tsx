@@ -9,8 +9,8 @@ import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 export default function InnerHome() {
 
-  let [messages, setMessages] = useState([])
-  let [names, setNames] = useState([])
+  let [messages, setMessages]: any[] = useState([])
+  let [names, setNames]: any[] = useState([])
   let [inputText, setInputText] = useState('')
   let [myIp, setMyIp] = useState('')
   let [nameText, setNameText] = useState('')
@@ -75,13 +75,14 @@ export default function InnerHome() {
     })
   }
 
-  const nameReplace = (ip) => {
-    const goodName = names.find(object => object.ip === ip) ? names.find(object => object.ip === ip).name : ip
+  const nameReplace = (ip: string) => {
+    // names.find(name => console.log(typeof name))
+    const goodName = names.find((name: any) => name.ip === ip) ? names.find((name: any) => name.ip === ip).name : ip
     return goodName
   }
 
   let id = 0
-  const mappedMessages = messages.map((item) => {
+  const mappedMessages = messages.map((item: any) => {
     id += 1
     const name = nameReplace(item.name)
     return(
@@ -93,15 +94,15 @@ export default function InnerHome() {
       message={item.message} />
     )
   })
-  mappedMessages.sort((a, b) => a.props.time - b.props.time)
+  mappedMessages.sort((a: any, b: any) => a.props.time - b.props.time)
 
-  const handleSendMessage = (event) => {
+  const handleSendMessage = (event: any) => {
     if (event.key === 'Enter') {
       postOne()
       getAllMessages()
     }
   }
-  const handleSetName = (event) => {
+  const handleSetName = (event: any) => {
     if (event.key === 'Enter') {
       postName()
       getAllMessages()
