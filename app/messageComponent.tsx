@@ -4,7 +4,8 @@ interface MessageProps {
   id: number,
   name: string,
   message: string,
-  time: number
+  time: number,
+  nameStyle: string
 }
 
 export default function Message(props: MessageProps) {
