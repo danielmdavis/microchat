@@ -120,14 +120,23 @@ export default function Home() {
 
   return (
     <div className='app'>
-      <h1 style={{ marginLeft: '5px', fontStyle: 'italic' }}>Web Chat</h1>
-      {mappedMessages}
-      <div>
-        <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} />
-        <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
+      <br /><br />
+      <div className='outer-wrapper'><div className='outer-div'>
+        <div className='message-scroll'>
+          {mappedMessages}
+        </div></div>
       </div>
-      <span style={{ fontSize: '0.75em', marginLeft: '5px' }}>{myIp}</span>
-      <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
+      <br /><br />
+      <br /><br />
+      <br /><br />
+      <div className='footer'>
+        <div>
+          <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} />
+          <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
+        </div>
+        <span style={{ fontSize: '0.75em', marginLeft: '7px' }}>{myIp}</span><br />
+        <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
+      </div>
     </div>
   )
 }

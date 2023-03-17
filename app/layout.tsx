@@ -12,7 +12,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className='title'>&nbsp;&nbsp;Web Chat</div>
+        {children}
+      </body>
     </html>
   )
 }
