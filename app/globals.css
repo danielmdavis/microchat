@@ -27,7 +27,7 @@ body {
 
 .message {
   width: 500px;
-  height: 30px;
+  min-height: 30px;
   border: 2px solid var(--white);
   border-radius: 6px;
   font-size: 1.25em;
@@ -47,7 +47,13 @@ body {
   margin: 4px;
 }
 
-.name {
+.name-good {
+  font-weight: bold;
+  color: var(--red);
+  font-weight: 700 !important;
+  font-style: italic;
+}
+.name-ip {
   font-weight: bold;
   color: var(--red);
   font-weight: 700 !important;
