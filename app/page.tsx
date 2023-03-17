@@ -128,13 +128,12 @@ export default function Home() {
       </div>
       <br /><br />
       <br /><br />
-      <br /><br />
+      <br />
       <div className='footer'>
         <div>
           <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} />
           <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
         </div>
-        <span style={{ fontSize: '0.75em', marginLeft: '7px' }}>{myIp}</span><br />
         <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
       </div>
     </div>
