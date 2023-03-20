@@ -49,8 +49,6 @@ export default function Home() {
   }
   const postName = async () => {
     if (!names.find((nomen: any) => nomen.name === nameText)) {
-      console.log(nameText)
-      console.log(myIp)
       await setDoc(doc(db, 'names', myIp), {
         name: nameText,
         ip: myIp
@@ -58,6 +56,7 @@ export default function Home() {
       getAllNames()
     }
   }
+
 
   useEffect(() => { 
     if (_.isEqual(messages, [])) {
@@ -77,7 +76,7 @@ export default function Home() {
     })
   }
 
-  const nameReplace = (ip: string) => {
+  const nameTextReplace = (ip: string) => {
     // const goodName = names.find((name: any) => name.ip === ip) ? names.find((name: any) => name.ip === ip).name : ip
     let goodName: string 
     let nameStyle: string
@@ -94,7 +93,7 @@ export default function Home() {
   let id = 0
   const mappedMessages = messages.map((item: any) => {
     id += 1
-    const [nomen, nameStyle] = nameReplace(item.name)
+    const [nomen, nameStyle] = nameTextReplace(item.name)
     return(
       <Message
       key={id} 
@@ -119,6 +118,16 @@ export default function Home() {
       getAllNames()
     }
   }
+  const handleClickSetName = (event: any) => {
+      postName()
+      getAllNames()
+  }
+
+  const claimAName = navigator.userAgentData.mobile 
+    ? 
+      <button className='mobile-submit' onClick={handleClickSetName}>claim a name</button> 
+    : 
+      <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
 
   return (
     <div className='app'>
@@ -130,10 +139,9 @@ export default function Home() {
       </div>
       <div style={{ height: '90px' }} /> 
       <div className='footer'>
-          <form>
             <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} maxLength={20} />&nbsp;
-            <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
-          </form>
+            {claimAName}
+          <br />
         <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
       </div>
     </div>

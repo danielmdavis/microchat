@@ -67,9 +67,10 @@ body {
   background-color: var(--white);
   color: var(--black);
   border-radius: 6px;
-  font-size: 1.25em;
   padding: 4px;
   margin-left: 4px;
+  font-family: 'Libre Bodoni';
+  font-size: 1em;
 }
 
 .name-good {
@@ -94,6 +95,18 @@ body {
   max-width: 92vw;
   min-height: 30px;
   border-radius: 6px;
+  font-family: 'Libre Bodoni';
+  font-size: 1.25em;
+}
+
+.mobile-submit {
+  height: 32px;
+  border: 2px solid var(--white);
+  background-color: var(--white);
+  color: var(--black);
+  border-radius: 6px;
+  font-family: 'Libre Bodoni';
+  font-size: 1.25em;
 }
 
 .footer {
