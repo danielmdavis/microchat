@@ -29,13 +29,13 @@ export default function Home() {
   const getAllMessages = async () => {
     const messagesCollection = collection(db, 'messages')
     const query = await getDocs(messagesCollection)
-    const messagesList = query.docs.map(doc => doc.data());
+    const messagesList = query.docs.map((doc: any) => doc.data())
     setMessages(messagesList)
   }
   const getAllNames = async () => {
     const namesCollection = collection(db, 'names')
     const query = await getDocs(namesCollection)
-    const namesList = query.docs.map(doc => doc.data());
+    const namesList = query.docs.map((doc: any) => doc.data())
     setNames(namesList)
   }
 
@@ -48,7 +48,9 @@ export default function Home() {
     setInputText('')
   }
   const postName = async () => {
-    if (!names.find((name: any) => name.name === nameText)) {
+    if (!names.find((nomen: any) => nomen.name === nameText)) {
+      console.log(nameText)
+      console.log(myIp)
       await setDoc(doc(db, 'names', myIp), {
         name: nameText,
         ip: myIp
@@ -79,8 +81,8 @@ export default function Home() {
     // const goodName = names.find((name: any) => name.ip === ip) ? names.find((name: any) => name.ip === ip).name : ip
     let goodName: string 
     let nameStyle: string
-    if (names.find((name: any) => name.ip === ip)) {
-      goodName = names.find((name: any) => name.ip === ip).name
+    if (names.find((nomen: any) => nomen.ip === ip)) {
+      goodName = names.find((nomen: any) => nomen.ip === ip).name
       nameStyle = 'name-good'
     } else {
       goodName = ip.substring(0,15)
@@ -92,12 +94,12 @@ export default function Home() {
   let id = 0
   const mappedMessages = messages.map((item: any) => {
     id += 1
-    const [name, nameStyle] = nameReplace(item.name)
+    const [nomen, nameStyle] = nameReplace(item.name)
     return(
       <Message
       key={id} 
       id={id}
-      name={name}
+      name={nomen}
       nameStyle={nameStyle}
       time={item.time.seconds}
       message={item.message} />
@@ -114,7 +116,7 @@ export default function Home() {
   const handleSetName = (event: any) => {
     if (event.key === 'Enter') {
       postName()
-      getAllMessages()
+      getAllNames()
     }
   }
 
@@ -129,7 +131,7 @@ export default function Home() {
       <div style={{ height: '90px' }} /> 
       <div className='footer'>
           <form>
-            <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} maxLength={20} />
+            <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} maxLength={20} />&nbsp;
             <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
           </form>
         <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
