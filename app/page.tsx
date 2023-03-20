@@ -123,11 +123,15 @@ export default function Home() {
       getAllNames()
   }
 
-    const claimAName = navigator.userAgentData?.mobile 
-    ? 
-      <button className='mobile-submit' onClick={handleClickSetName}>claim a name</button> 
-    : 
-      <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
+const claimAName = <button className='mobile-submit' onClick={handleClickSetName}>claim a name</button> 
+  // let claimAName
+  // if (navigator) {
+  //   claimAName = navigator.userAgentData?.mobile 
+  //   ? 
+  //   <button className='mobile-submit' onClick={handleClickSetName}>claim a name</button> 
+  //   : 
+  //   <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
+  // }
 
   return (
     <div className='app'>
