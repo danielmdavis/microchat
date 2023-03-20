@@ -123,7 +123,7 @@ export default function Home() {
       getAllNames()
   }
 
-  const claimAName = navigator.userAgentData.mobile 
+    const claimAName = navigator.userAgentData?.mobile 
     ? 
       <button className='mobile-submit' onClick={handleClickSetName}>claim a name</button> 
     : 
