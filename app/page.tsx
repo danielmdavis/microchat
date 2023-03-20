@@ -1,6 +1,6 @@
 'use client'
 import _ from 'lodash'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Message from './messageComponent'
 
 import { initializeApp } from 'firebase/app'
@@ -14,6 +14,8 @@ export default function Home() {
   let [inputText, setInputText] = useState('')
   let [myIp, setMyIp] = useState('')
   let [nameText, setNameText] = useState('')
+
+  const bottom: any = useRef(null)
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyB-lNG6danS5wodEmWpVEmTFbcesdx3qfE",
@@ -59,12 +61,10 @@ export default function Home() {
 
 
   useEffect(() => { 
-    if (_.isEqual(messages, [])) {
       getAllMessages()
       getAllNames()
       getMyIp()
-    }
-  })
+  }, [])
 
   const getMyIp = () => {
     fetch('https://api64.ipify.org?format=json', {
@@ -110,6 +110,7 @@ export default function Home() {
     if (event.key === 'Enter') {
       postOne()
       getAllMessages()
+      bottom.current?.scrollIntoView() //fucked
     }
   }
   const handleSetName = (event: any) => {
@@ -139,6 +140,7 @@ const claimAName = <button className='mobile-submit' onClick={handleClickSetName
       <div className='outer-wrapper'><div className='outer-div'>
         <div className='message-scroll'>
           {mappedMessages}
+          <span className='hidden-end' ref={bottom} />
         </div></div>
       </div>
       <div style={{ height: '90px' }} /> 
