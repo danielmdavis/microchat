@@ -1,11 +1,10 @@
 'use client'
 import _ from 'lodash'
 import { useState, useEffect, useRef, useMemo } from 'react'
-import Message from './messageComponent'
-
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
+import Message from './messageComponent'
 
 export default function Home() {
 
@@ -43,7 +42,7 @@ export default function Home() {
   //   })
   // })
   
-  const getAllMessages = async () => { //gets and sets
+  const getAllMessages = async () => {
     const messagesCollection = collection(db, 'messages')
     const query = await getDocs(messagesCollection)
     const messagesList = query.docs.map((doc: any) => doc.data())
@@ -56,16 +55,19 @@ export default function Home() {
     setNames(namesList)
   }
   
-  useMemo(() => { // gets and sets as described above. efficiency issues should never present meaningful issues.
+  useMemo(() => { // gets and sets as described above. efficiency issues should never present meaningful problem.
     getAllMessages() 
     getAllNames()
   }, [messagesChange, namesChange])
-
+  
   const postOne = async () => {
     await addDoc(collection(db, 'messages'), {
       name: myIp,
       message: inputText,
       time: new Date()
+    })
+    bottom.current?.scrollIntoView({ 
+      behavior: "smooth"
     })
     setInputText('')
   }
@@ -126,7 +128,6 @@ export default function Home() {
   const handleSendMessage = (event: any) => {
     if (event.key === 'Enter') {
       postOne()
-      bottom.current?.scrollIntoView() //fucked, next target
     }
   }
   const handleSetName = (event: any) => {
@@ -144,7 +145,7 @@ export default function Home() {
       <div className='outer-wrapper'><div className='outer-div'>
         <div className='message-scroll'>
           {mappedMessages}
-          <span className='hidden-end' ref={bottom} />
+          <div className='hidden-end' ref={bottom}></div>
         </div></div>
       </div>
       <div style={{ height: '90px' }} /> 
