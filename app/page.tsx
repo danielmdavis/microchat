@@ -30,7 +30,8 @@ export default function Home() {
 
   const messagesCollection = collection(db, 'messages')
   const query = useCollectionData(messagesCollection)
-  console.log(query)
+  const messagesList = query.docs.map((doc: any) => doc.data())
+  setMessages(messagesList)
 
   const getAllMessages = async () => {
     const messagesCollection = collection(db, 'messages')
