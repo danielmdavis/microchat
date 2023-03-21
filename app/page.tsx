@@ -1,6 +1,6 @@
 'use client'
 import _ from 'lodash'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import Message from './messageComponent'
 
 import { initializeApp } from 'firebase/app'
@@ -28,21 +28,38 @@ export default function Home() {
   })
   const db = getFirestore(firebaseApp)
 
-  const messagesData: any = useCollection(collection(db, 'messages'))
-  const messagesList = messagesData[0]?._snapshot.docChanges
-
-  // const getAllMessages = async () => {
-  //   const messagesCollection = collection(db, 'messages')
-  //   const query = await getDocs(messagesCollection)
-  //   const messagesList = query.docs.map((doc: any) => doc.data())
-  //   setMessages(messagesList)
-  // }
+  // not using for data, just for sync. bc while I have parsing working for this hook it can only work in the top level scope, 
+  // in which case it can't be made to set state without an infinite loop, prevention of which also blocks the open listening 
+  // which is the whole point. so instead it's simply used to register a change and fire the old method.
+  const messagesChange: any = useCollection(collection(db, 'messages')) 
+  const namesChange: any = useCollection(collection(db, 'names'))
+  // const messagesList = messagesChange[0]?._snapshot.docChanges
+  // const parsedMessages = messagesList?.map((item: any) => {
+  //   const doc = item.doc.data.value.mapValue.fields
+  //   return ({
+  //     name : doc.name.stringValue,
+  //     time: new Date(doc.time.timestampValue).getTime(),
+  //     message: doc.message.stringValue
+  //   })
+  // })
+  
+  const getAllMessages = async () => { //gets and sets
+    const messagesCollection = collection(db, 'messages')
+    const query = await getDocs(messagesCollection)
+    const messagesList = query.docs.map((doc: any) => doc.data())
+    setMessages(messagesList)
+  }
   const getAllNames = async () => {
     const namesCollection = collection(db, 'names')
     const query = await getDocs(namesCollection)
     const namesList = query.docs.map((doc: any) => doc.data())
     setNames(namesList)
   }
+  
+  useMemo(() => { // gets and sets as described above. efficiency issues should never present meaningful issues.
+    getAllMessages() 
+    getAllNames()
+  }, [messagesChange, namesChange])
 
   const postOne = async () => {
     await addDoc(collection(db, 'messages'), {
@@ -58,17 +75,13 @@ export default function Home() {
         name: nameText,
         ip: myIp
       })
-      getAllNames()
     }
   }
 
-
   useEffect(() => { 
-      // getAllMessages()
-      getAllNames()
-      getMyIp()
-      const sendMessage = document.getElementById('sendMessage')
-      if (sendMessage !== null) { sendMessage.blur() }
+    getMyIp()
+    const sendMessage = document.getElementById('sendMessage')
+    if (sendMessage !== null) { sendMessage.blur() }
   }, [])
 
   const getMyIp = () => {
@@ -95,19 +108,17 @@ export default function Home() {
   }
 
   let id = 0
-  let mappedMessages = messagesList?.map((item: any) => {
-    const doc = item.doc.data.value.mapValue.fields
+  let mappedMessages = messages?.map((item: any) => {
   id += 1
-  const [nomen, nameStyle] = nameTextReplace(doc?.name.stringValue)
-  const time = new Date(doc.time.timestampValue).getTime()
+  const [nomen, nameStyle] = nameTextReplace(item?.name)
   return(
     <Message
     key={id} 
     id={id}
     name={nomen}
     nameStyle={nameStyle}
-    time={time}
-    message={doc?.message.stringValue} />
+    time={item.time}
+    message={item.message} />
     )
   })
   mappedMessages?.sort((a: any, b: any) => a.props.time - b.props.time)
@@ -115,8 +126,7 @@ export default function Home() {
   const handleSendMessage = (event: any) => {
     if (event.key === 'Enter') {
       postOne()
-      // getAllMessages()
-      bottom.current?.scrollIntoView() //fucked
+      bottom.current?.scrollIntoView() //fucked, next target
     }
   }
   const handleSetName = (event: any) => {
