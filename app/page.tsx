@@ -5,7 +5,7 @@ import Message from './messageComponent'
 
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { useCollection } from 'react-firebase-hooks/firestore'
 
 export default function Home() {
 
@@ -28,17 +28,15 @@ export default function Home() {
   })
   const db = getFirestore(firebaseApp)
 
-  const messagesCollection = collection(db, 'messages')
-  const query = useCollectionData(messagesCollection)
-  const messagesList = query.docs.map((doc: any) => doc.data())
-  setMessages(messagesList)
+  const messagesData: any = useCollection(collection(db, 'messages'))
+  const messagesList = messagesData[0]?._snapshot.docChanges
 
-  const getAllMessages = async () => {
-    const messagesCollection = collection(db, 'messages')
-    const query = await getDocs(messagesCollection)
-    const messagesList = query.docs.map((doc: any) => doc.data())
-    setMessages(messagesList)
-  }
+  // const getAllMessages = async () => {
+  //   const messagesCollection = collection(db, 'messages')
+  //   const query = await getDocs(messagesCollection)
+  //   const messagesList = query.docs.map((doc: any) => doc.data())
+  //   setMessages(messagesList)
+  // }
   const getAllNames = async () => {
     const namesCollection = collection(db, 'names')
     const query = await getDocs(namesCollection)
@@ -66,7 +64,7 @@ export default function Home() {
 
 
   useEffect(() => { 
-      getAllMessages()
+      // getAllMessages()
       getAllNames()
       getMyIp()
       const sendMessage = document.getElementById('sendMessage')
@@ -84,7 +82,6 @@ export default function Home() {
   }
 
   const nameTextReplace = (ip: string) => {
-    // const goodName = names.find((name: any) => name.ip === ip) ? names.find((name: any) => name.ip === ip).name : ip
     let goodName: string 
     let nameStyle: string
     if (names.find((nomen: any) => nomen.ip === ip)) {
@@ -98,25 +95,27 @@ export default function Home() {
   }
 
   let id = 0
-  const mappedMessages = messages.map((item: any) => {
-    id += 1
-    const [nomen, nameStyle] = nameTextReplace(item.name)
-    return(
-      <Message
-      key={id} 
-      id={id}
-      name={nomen}
-      nameStyle={nameStyle}
-      time={item.time.seconds}
-      message={item.message} />
+  let mappedMessages = messagesList?.map((item: any) => {
+    const doc = item.doc.data.value.mapValue.fields
+  id += 1
+  const [nomen, nameStyle] = nameTextReplace(doc?.name.stringValue)
+  const time = new Date(doc.time.timestampValue).getTime()
+  return(
+    <Message
+    key={id} 
+    id={id}
+    name={nomen}
+    nameStyle={nameStyle}
+    time={time}
+    message={doc?.message.stringValue} />
     )
   })
-  mappedMessages.sort((a: any, b: any) => a.props.time - b.props.time)
-
+  mappedMessages?.sort((a: any, b: any) => a.props.time - b.props.time)
+      
   const handleSendMessage = (event: any) => {
     if (event.key === 'Enter') {
       postOne()
-      getAllMessages()
+      // getAllMessages()
       bottom.current?.scrollIntoView() //fucked
     }
   }
