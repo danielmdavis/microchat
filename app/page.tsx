@@ -64,6 +64,8 @@ export default function Home() {
       getAllMessages()
       getAllNames()
       getMyIp()
+      const sendMessage = document.getElementById('sendMessage')
+      if (sendMessage !== null) { sendMessage.blur() }
   }, [])
 
   const getMyIp = () => {
@@ -117,11 +119,9 @@ export default function Home() {
     if (event.key === 'Enter') {
       postName()
       getAllNames()
+      const nameClaim = document.getElementById('nameClaim')
+      if (nameClaim !== null) { nameClaim.blur() }
     }
-  }
-  const handleClickSetName = (event: any) => {
-      postName()
-      getAllNames()
   }
 
   return (
@@ -135,10 +135,10 @@ export default function Home() {
       </div>
       <div style={{ height: '90px' }} /> 
       <div className='footer'>
-        <input className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} maxLength={20} />&nbsp;
+        <input id='nameClaim' className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} value={nameText} onKeyDown={handleSetName} maxLength={14} />&nbsp;&nbsp;
         <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
         <br />
-        <input className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
+        <input id='sendMessage' className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
       </div>
     </div>
   )
