@@ -28,6 +28,10 @@ export default function Home() {
   })
   const db = getFirestore(firebaseApp)
 
+  const messagesCollection = collection(db, 'messages')
+  const query = useCollectionData(messagesCollection)
+  console.log(query)
+
   const getAllMessages = async () => {
     const messagesCollection = collection(db, 'messages')
     const query = await getDocs(messagesCollection)
@@ -135,7 +139,7 @@ export default function Home() {
       </div>
       <div style={{ height: '90px' }} /> 
       <div className='footer'>
-        <input id='nameClaim' className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} value={nameText} onKeyDown={handleSetName} maxLength={14} />&nbsp;&nbsp;
+        <input id='nameClaim' className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} value={nameText} onKeyDown={handleSetName} maxLength={16} />&nbsp;&nbsp;
         <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
         <br />
         <input id='sendMessage' className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
