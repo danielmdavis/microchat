@@ -124,16 +124,6 @@ export default function Home() {
       getAllNames()
   }
 
-const claimAName = <button className='mobile-submit' onClick={handleClickSetName}>claim a name</button> 
-  // let claimAName
-  // if (navigator) {
-  //   claimAName = navigator.userAgentData?.mobile 
-  //   ? 
-  //   <button className='mobile-submit' onClick={handleClickSetName}>claim a name</button> 
-  //   : 
-  //   <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
-  // }
-
   return (
     <div className='app'>
       <br /><br />
@@ -145,10 +135,10 @@ const claimAName = <button className='mobile-submit' onClick={handleClickSetName
       </div>
       <div style={{ height: '90px' }} /> 
       <div className='footer'>
-            <input className='ip' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} maxLength={20} />&nbsp;
-            {claimAName}
-          <br />
-        <input className='textbox' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
+        <input className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} value={nameText} onKeyDown={handleSetName} maxLength={20} />&nbsp;
+        <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
+        <br />
+        <input className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
       </div>
     </div>
   )

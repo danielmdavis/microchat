@@ -94,6 +94,7 @@ body {
   width: 506px;
   max-width: 92vw;
   min-height: 30px;
+  height: 30px;
   border-radius: 6px;
   font-family: 'Libre Bodoni';
   font-size: 1.25em;
