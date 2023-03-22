@@ -82,6 +82,7 @@ export default function Home() {
     getMyIp()
     const sendMessage = document.getElementById('sendMessage')
     if (sendMessage !== null) { sendMessage.blur() }
+    bottom.current?.scrollIntoView(false)
   }, [])
 
   const getMyIp = () => {
