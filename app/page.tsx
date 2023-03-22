@@ -152,11 +152,7 @@ export default function Home() {
         <div className='footer-inner'>
           <input id='nameClaim' className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} value={nameText} onKeyDown={handleSetName} maxLength={16} />
           <button className='mobile-submit'>↵</button>&nbsp;
-          <span className='label' style={{ width: '45px' }}>claim a name</span>
-          <label className='switch'>
-            <input type='checkbox' />
-            <span className='slider'></span>
-          </label>
+          <div className='label' style={{ width: '50px' }}>claim a name</div>
         </div>
         <div className='footer-inner'>
           <input id='sendMessage' className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
