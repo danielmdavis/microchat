@@ -27,14 +27,23 @@ body {
   position: relative;
 }
 
+.header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  top: 0;
+}
 .title {
   -webkit-text-stroke: 1.25px white;
   color: black;
   font-size: 2.5em;
-  width: 100%;
   background-color: var(--black);
-  position: fixed;
-  top: 0;
+}
+.icon {
+ margin-left: 15px;
+ height: 20px;
+ width: 20px;
 }
 
 .outer-wrapper, .outer-div {
