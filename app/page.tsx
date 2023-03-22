@@ -149,11 +149,19 @@ export default function Home() {
       </div>
       <div style={{ height: '90px' }} /> 
       <div className='footer'>
-        <input id='nameClaim' className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} value={nameText} onKeyDown={handleSetName} maxLength={16} />&nbsp;&nbsp;
-        <span className='mobile-submit'></span>
-        <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
-        <br />
-        <input id='sendMessage' className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
+        <div className='footer-inner'>
+          <input id='nameClaim' className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} value={nameText} onKeyDown={handleSetName} maxLength={16} />
+          <button className='mobile-submit'>↵</button>&nbsp;
+          <span className='label' style={{ width: '45px' }}>claim a name</span>
+          <label className='switch'>
+            <input type='checkbox' />
+            <span className='slider'></span>
+          </label>
+        </div>
+        <div className='footer-inner'>
+          <input id='sendMessage' className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
+          <button className='mobile-submit' style={{ marginBottom: '6px'}}>↵</button>
+        </div>
       </div>
     </div>
   )
