@@ -66,9 +66,9 @@ export default function Home() {
       message: inputText,
       time: new Date()
     })
-    bottom.current?.scrollIntoView({ 
-      behavior: "smooth"
-    })
+    // bottom.current?.scrollIntoView(false)
+    const scrollable = document.getElementById('scrollable')
+      scrollable?.scrollTo(0, scrollable.scrollHeight - 1)
     setInputText('')
   }
   const postName = async () => {
@@ -143,7 +143,7 @@ export default function Home() {
     <div className='app'>
       <br /><br />
       <div className='outer-wrapper'><div className='outer-div'>
-        <div className='message-scroll'>
+        <div id='scrollable' className='message-scroll'>
           {mappedMessages}
           <div className='hidden-end' ref={bottom}></div>
         </div></div>
