@@ -82,7 +82,7 @@ export default function Home() {
     getMyIp()
     const sendMessage = document.getElementById('sendMessage')
     if (sendMessage !== null) { sendMessage.blur() }
-    bottom.current?.scrollIntoView(false)
+    setTimeout(() => {bottom.current?.scrollIntoView(false)}, 1)
   }, [])
 
   const getMyIp = () => {
@@ -150,6 +150,7 @@ export default function Home() {
       <div style={{ height: '90px' }} /> 
       <div className='footer'>
         <input id='nameClaim' className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} value={nameText} onKeyDown={handleSetName} maxLength={16} />&nbsp;&nbsp;
+        <span className='mobile-submit'></span>
         <span style={{ fontSize: '1.25em', fontStyle: 'italic' }}>claim a name</span>
         <br />
         <input id='sendMessage' className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />

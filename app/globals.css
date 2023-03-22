@@ -102,6 +102,7 @@ body {
 
 .mobile-submit {
   height: 33.5px;
+  width: 33.5px !important;
   border: 2px solid var(--white);
   background-color: var(--white);
   color: var(--black);
