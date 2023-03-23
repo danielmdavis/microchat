@@ -140,6 +140,15 @@ export default function Home() {
       if (nameClaim !== null) { nameClaim.blur() }
     }
   }
+  const handleClickSendMessage = (event: any) => {
+      postOne()
+  }
+  const handleClickSetName = (event: any) => {
+      postName()
+      getAllNames()
+      const nameClaim = document.getElementById('nameClaim')
+      if (nameClaim !== null) { nameClaim.blur() }
+  }
 
   return (
     <div className='app'>
@@ -153,6 +162,7 @@ export default function Home() {
       <div style={{ height: '90px' }} /> 
       <Footer isMobile={isMobile} 
         sendMessage={handleSendMessage} setName={handleSetName} 
+        clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
         setNameText={setNameText} setInputText={setInputText}
         nameText={nameText} inputText={inputText} />
     </div>

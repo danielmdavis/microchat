@@ -105,19 +105,25 @@ body {
   height: 29px;
 }
 
-.textbox {
+.textbox, .textbox-browser {
   margin: 6px;
   margin-bottom: 12px;
   margin-right: 2px;
   border: 2pxb solid var(--black);
   background-color: var(--white);
-  width: 465px;
-  max-width: 82vw;
   min-height: 30px;
   height: 31.5px;
   border-radius: 6px;
   font-family: 'Libre Bodoni';
   font-size: 1.25em;
+}
+.textbox {
+  width: 465px;
+  max-width: 82vw;
+}
+.textbox-browser {
+  width: 504px;
+  max-width: 90vw;
 }
 
 .mobile-submit {
