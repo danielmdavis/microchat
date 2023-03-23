@@ -5,6 +5,7 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Message from './messageComponent'
+import Footer from './footerComponent'
 
 export default function Home() {
 
@@ -15,6 +16,7 @@ export default function Home() {
   let [nameText, setNameText] = useState('')
 
   const bottom: any = useRef(null)
+  let isMobile: any
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyB-lNG6danS5wodEmWpVEmTFbcesdx3qfE",
@@ -82,7 +84,8 @@ export default function Home() {
     getMyIp()
     const sendMessage = document.getElementById('sendMessage')
     if (sendMessage !== null) { sendMessage.blur() }
-    setTimeout(() => {bottom.current?.scrollIntoView(false)}, 1)
+    bottom.current?.scrollIntoView(false)
+    isMobile = navigator?.userAgentData?.mobile
   }, [])
 
   const getMyIp = () => {
@@ -148,17 +151,10 @@ export default function Home() {
         </div></div>
       </div>
       <div style={{ height: '90px' }} /> 
-      <div className='footer'>
-        <div className='footer-inner'>
-          <input id='nameClaim' className='ip' enterKeyHint='go' onChange={(event) => {setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} value={nameText} onKeyDown={handleSetName} maxLength={16} />
-          <button className='mobile-submit'>↵</button>&nbsp;
-          <div className='label' style={{ width: '50px' }}>claim a name</div>
-        </div>
-        <div className='footer-inner'>
-          <input id='sendMessage' className='textbox' enterKeyHint='go' onChange={(event) => {setInputText(event.target.value)}} value={inputText} onKeyDown={handleSendMessage} />
-          <button className='mobile-submit' style={{ marginBottom: '6px'}}>↵</button>
-        </div>
-      </div>
+      <Footer isMobile={isMobile} 
+        sendMessage={handleSendMessage} setName={handleSetName} 
+        setNameText={setNameText} setInputText={setInputText}
+        nameText={nameText} inputText={inputText} />
     </div>
   )
 }
