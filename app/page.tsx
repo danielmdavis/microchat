@@ -67,7 +67,7 @@ export default function Home() {
   
   const postOne = async () => {
     const poster = names.find((item: any) => myIp === item.ip)
-    const color = poster.color ? poster.color : 'white'
+    const color = poster?.color !== undefined ? poster.color : 'white'
     await addDoc(collection(db, 'messages'), {
       name: myIp,
       message: inputText,
@@ -78,8 +78,8 @@ export default function Home() {
     setInputText('')
   }
   const postName = async () => {
-    const self = names.find((item: any) => myIp === item.ip)
-    const color = self.color ? self.color : 'white'
+    const poster = names.find((item: any) => myIp === item.ip)
+    const color = poster?.color ? poster.color : 'white'
     if (!names.find((nomen: any) => nomen.name === nameText)) {
       await setDoc(doc(db, 'names', myIp), {
         name: nameText,
@@ -90,7 +90,7 @@ export default function Home() {
   }
   const postColor = async () => {
     const poster = names.find((item: any) => myIp === item.ip)
-    const nomen = poster.name ? poster.name : ''
+    const nomen = poster?.name ? poster.name : ''
     await setDoc(doc(db, 'names', myIp), {
       ip: myIp,
       name: nomen,
