@@ -58,6 +58,8 @@ export default function Home() {
     const query = await getDocs(namesCollection)
     const namesList = query.docs.map((doc: any) => doc.data())
     setNames(namesList)
+    const poster = names.find((item: any) => myIp === item.ip)
+    if (poster?.color) { setColorText(poster.color) }
   }
   
   useMemo(() => { // gets and sets as described above. efficiency issues should never present meaningful problem at anticipated scale
@@ -66,16 +68,19 @@ export default function Home() {
   }, [messagesChange, namesChange])
   
   const postOne = async () => {
+    const poster = names.find((item: any) => myIp === item.ip)
+    const color = poster.color ? poster.color : 'white'
     await addDoc(collection(db, 'messages'), {
       name: myIp,
       message: inputText,
-      time: new Date()
+      time: new Date(),
+      color: color
     })
     bottom.current?.scrollIntoView(false)
     setInputText('')
   }
   const postName = async () => {
-    const self = names.find((item) => myIp === item.ip)
+    const self = names.find((item: any) => myIp === item.ip)
     const color = self.color ? self.color : 'white'
     if (!names.find((nomen: any) => nomen.name === nameText)) {
       await setDoc(doc(db, 'names', myIp), {
@@ -86,8 +91,8 @@ export default function Home() {
     }
   }
   const postColor = async () => {
-    const self = names.find((item) => myIp === item.ip)
-    const nomen = self.name ? self.name : ''
+    const poster = names.find((item) => myIp === item.ip)
+    const nomen = poster.name ? poster.name : ''
     await setDoc(doc(db, 'names', myIp), {
       ip: myIp,
       name: nomen,
@@ -130,10 +135,12 @@ export default function Home() {
   let mappedMessages = messages?.map((item: any) => {
   id += 1
   const [nomen, nameStyle] = nameTextReplace(item?.name)
+  const color = item.color ? item.color : 'white'
   return(
     <Message
     key={id} 
     id={id}
+    color={color}
     name={nomen}
     nameStyle={nameStyle}
     time={item.time}

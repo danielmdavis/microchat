@@ -5,7 +5,8 @@ interface MessageProps {
   name: string,
   message: string,
   time: number,
-  nameStyle: string
+  nameStyle: string,
+  color: string
 }
 
 export default function Message(props: MessageProps) {
