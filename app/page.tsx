@@ -5,7 +5,8 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Message from './messageComponent'
-import Footer from './footerComponent'
+import { NameFooter, EffectFooter} from './footerComponent'
+import Header from './headerComponent'
 
 export default function Home() {
 
@@ -14,6 +15,7 @@ export default function Home() {
   let [inputText, setInputText] = useState('')
   let [myIp, setMyIp] = useState('')
   let [nameText, setNameText] = useState('')
+  let [claimName, setClaimName] = useState(true)
 
   const bottom: any = useRef(null)
   let isMobile: any
@@ -126,7 +128,16 @@ export default function Home() {
     )
   })
   mappedMessages?.sort((a: any, b: any) => a.props.time - b.props.time)
-      
+  
+  //header listeners
+  const handleClaimName = (event: any) => {
+    setClaimName(true)
+  }
+  const handleSelectEffect = (event: any) => {
+    setClaimName(false)
+  }
+
+  // footer listeners
   const handleSendMessage = (event: any) => {
     if (event.key === 'Enter') {
       postOne()
@@ -150,8 +161,24 @@ export default function Home() {
       if (nameClaim !== null) { nameClaim.blur() }
   }
 
+  const whichFooter = claimName
+  ?
+  <NameFooter isMobile={isMobile} nameClaim={claimName} 
+  sendMessage={handleSendMessage} setName={handleSetName} 
+  clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
+  setNameText={setNameText} setInputText={setInputText}
+  nameText={nameText} inputText={inputText} />
+  :
+  <EffectFooter isMobile={isMobile} nameClaim={claimName} 
+  sendMessage={handleSendMessage} setName={handleSetName} 
+  clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
+  setNameText={setNameText} setInputText={setInputText}
+  nameText={nameText} inputText={inputText} />
+
+
   return (
     <div className='app'>
+      <Header selectEffect={handleSelectEffect} claimName={handleClaimName} />
       <br /><br />
       <div className='outer-wrapper'><div className='outer-div'>
         <div className='message-scroll'>
@@ -160,11 +187,7 @@ export default function Home() {
         </div></div>
       </div>
       <div style={{ height: '90px' }} /> 
-      <Footer isMobile={isMobile} 
-        sendMessage={handleSendMessage} setName={handleSetName} 
-        clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
-        setNameText={setNameText} setInputText={setInputText}
-        nameText={nameText} inputText={inputText} />
+      {whichFooter}
     </div>
   )
 }
