@@ -89,7 +89,7 @@ export default function Home() {
     }
   }
   const postColor = async () => {
-    const poster = names.find((item) => myIp === item.ip)
+    const poster = names.find((item: any) => myIp === item.ip)
     const nomen = poster.name ? poster.name : ''
     await setDoc(doc(db, 'names', myIp), {
       ip: myIp,
