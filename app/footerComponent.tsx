@@ -44,7 +44,7 @@ export function NameFooter(props: FooterProps) {
         <div className='footer-inner'>
           <input id='nameClaim' className='ip' enterKeyHint='go' 
           onChange={(event) => {props.setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} 
-          value={props.nameText} onKeyDown={props.setName} maxLength={16} />&nbsp;
+          value={props.nameText} onKeyDown={props.setName} maxLength={20} />&nbsp;
           <div style={{ fontSize: '1.25em', fontStyle: 'italic'}}>claim a name</div>
         </div>
         <div className='footer-inner'>
@@ -82,7 +82,7 @@ export function EffectFooter(props: FooterProps) {
         <div className='footer-inner'>
           <input id='nameClaim' className='ip' enterKeyHint='go' 
           onChange={(event) => {props.setColorText(event.target.value)}} onFocus={(event) => {event.target.select()}} 
-          value={props.colorText} onKeyDown={props.setColor} maxLength={16} />&nbsp;
+          value={props.colorText} onKeyDown={props.setColor} maxLength={35} />&nbsp;
           <div style={{ fontSize: '1.25em', fontStyle: 'italic'}}>select an effect</div>
         </div>
         <div className='footer-inner'>

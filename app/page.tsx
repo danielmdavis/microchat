@@ -58,8 +58,6 @@ export default function Home() {
     const query = await getDocs(namesCollection)
     const namesList = query.docs.map((doc: any) => doc.data())
     setNames(namesList)
-    const poster = names.find((item: any) => myIp === item.ip)
-    if (poster?.color) { setColorText(poster.color) }
   }
   
   useMemo(() => { // gets and sets as described above. efficiency issues should never present meaningful problem at anticipated scale
