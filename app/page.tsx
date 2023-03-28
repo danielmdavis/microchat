@@ -15,6 +15,7 @@ export default function Home() {
   let [inputText, setInputText] = useState('')
   let [myIp, setMyIp] = useState('')
   let [nameText, setNameText] = useState('')
+  let [colorText, setColorText] = useState('white')
   let [claimName, setClaimName] = useState(true)
 
   const bottom: any = useRef(null)
@@ -33,7 +34,7 @@ export default function Home() {
 
   // not using for data, just for sync. bc while I have parsing working for this hook it can only work in the top level scope, 
   // in which case it can't be made to set state without an infinite loop, prevention of which also blocks the open listening 
-  // which is the whole point. so instead it's simply used to register a change and fire the old method.
+  // which is the whole point. so instead it's simply used to register a change and fire the conventional getter hook.
   const messagesChange: any = useCollection(collection(db, 'messages')) 
   const namesChange: any = useCollection(collection(db, 'names'))
   // const messagesList = messagesChange[0]?._snapshot.docChanges
@@ -59,7 +60,7 @@ export default function Home() {
     setNames(namesList)
   }
   
-  useMemo(() => { // gets and sets as described above. efficiency issues should never present meaningful problem.
+  useMemo(() => { // gets and sets as described above. efficiency issues should never present meaningful problem at anticipated scale
     getAllMessages() 
     getAllNames()
   }, [messagesChange, namesChange])
@@ -74,12 +75,24 @@ export default function Home() {
     setInputText('')
   }
   const postName = async () => {
+    const self = names.find((item) => myIp === item.ip)
+    const color = self.color ? self.color : 'white'
     if (!names.find((nomen: any) => nomen.name === nameText)) {
       await setDoc(doc(db, 'names', myIp), {
         name: nameText,
-        ip: myIp
+        ip: myIp,
+        color: color
       })
     }
+  }
+  const postColor = async () => {
+    const self = names.find((item) => myIp === item.ip)
+    const nomen = self.name ? self.name : ''
+    await setDoc(doc(db, 'names', myIp), {
+      ip: myIp,
+      name: nomen,
+      color: colorText
+    })
   }
 
   useEffect(() => { 
@@ -143,6 +156,9 @@ export default function Home() {
       postOne()
     }
   }
+  const handleClickSendMessage = (event: any) => {
+    postOne()
+  }
   const handleSetName = (event: any) => {
     if (event.key === 'Enter') {
       postName()
@@ -151,29 +167,39 @@ export default function Home() {
       if (nameClaim !== null) { nameClaim.blur() }
     }
   }
-  const handleClickSendMessage = (event: any) => {
-      postOne()
-  }
+  // footer listeners (button)
   const handleClickSetName = (event: any) => {
-      postName()
-      getAllNames()
+    postName()
+    getAllNames()
+    const nameClaim = document.getElementById('nameClaim')
+    if (nameClaim !== null) { nameClaim.blur() }
+  }
+  const handleSetColor = (event: any) => {
+    if (event.key === 'Enter') {
+      postColor()
+    }
+  }
+  const handleClickSetColor = (event: any) => {
+      postColor()
       const nameClaim = document.getElementById('nameClaim')
       if (nameClaim !== null) { nameClaim.blur() }
   }
 
-  const whichFooter = claimName
+  const whichFooter = claimName // share props on the component end, making the jsx side very bloated
   ?
   <NameFooter isMobile={isMobile} nameClaim={claimName} 
   sendMessage={handleSendMessage} setName={handleSetName} 
   clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
   setNameText={setNameText} setInputText={setInputText}
-  nameText={nameText} inputText={inputText} />
+  nameText={nameText} inputText={inputText}
+  colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} setColorText={setColorText} />
   :
   <EffectFooter isMobile={isMobile} nameClaim={claimName} 
   sendMessage={handleSendMessage} setName={handleSetName} 
   clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
-  setNameText={setNameText} setInputText={setInputText}
-  nameText={nameText} inputText={inputText} />
+  setColorText={setColorText} setInputText={setInputText}
+  colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} inputText={inputText} 
+  nameText={nameText} setNameText={setNameText} />
 
 
   return (
