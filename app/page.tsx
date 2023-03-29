@@ -1,6 +1,6 @@
 'use client'
 import _ from 'lodash'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
@@ -109,10 +109,17 @@ export default function Home() {
       setNameText(res.ip)
     })
   }
+
+  const compareForUpdate = () => {
+    const messagesList = messagesChange[0]?._snapshot.docChanges
+    const difference = messages?.length - messagesList?.length
+    return difference
+  }
+
   // runs middleware get all methods
   useEffect(() => { // gets and sets as described above. efficiency issues should never present meaningful problem at anticipated scale
-    getAllMessages() 
-    getAllNames()
+    // getAllMessages() 
+    // getAllNames()
     getMyIp()
     getUser()
     const sendMessage = document.getElementById('sendMessage')
@@ -120,6 +127,12 @@ export default function Home() {
     isMobile = navigator?.userAgentData?.mobile
     bottom.current?.scrollIntoView(false)
   }, [])
+  useMemo(() => {    
+    getAllMessages() 
+    getAllNames()
+    console.log(names)
+    bottom.current?.scrollIntoView(false)
+  }, [compareForUpdate()])
 
   // jsx builders
   const nameTextReplace = (ip: string) => {
