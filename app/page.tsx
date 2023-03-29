@@ -72,18 +72,20 @@ export default function Home() {
   // middleware post one methods
   const postOne = async () => {
     const color = user?.color !== undefined ? user.color : 'white'
-    await addDoc(collection(db, 'messages'), {
-      name: myIp,
-      message: inputText,
-      time: new Date(),
-      color: color
-    })
+    if (inputText.length > 0) {
+      await addDoc(collection(db, 'messages'), {
+        name: myIp,
+        message: inputText,
+        time: new Date(),
+        color: color
+      })
+    }
     // bottom.current?.scrollIntoView(false)
     setInputText('')
   }
   const postName = async () => {
     const color = user?.color ? user.color : 'white'
-    if (!names.find((nomen: any) => nomen.name === nameText)) {
+    if (!names.find((nomen: any) => nomen.name === nameText) && nameText.length > 0) {
       await setDoc(doc(db, 'names', myIp), {
         name: nameText,
         ip: myIp,
@@ -121,8 +123,6 @@ export default function Home() {
 
   // runs middleware get all methods
   useEffect(() => { // gets and sets as described above. efficiency issues should never present meaningful problem at anticipated scale
-    // getAllMessages() 
-    // getAllNames()
     getMyIp()
     getUser()
     const sendMessage = document.getElementById('sendMessage')
@@ -133,8 +133,6 @@ export default function Home() {
   useMemo(() => {    
     getAllMessages() 
     getAllNames()
-    console.log(names)
-    // bottom.current?.scrollIntoView(false)
   }, [compareForUpdate()])
 
   // jsx builders
