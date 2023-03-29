@@ -81,7 +81,6 @@ export default function Home() {
         color: color
       })
     }
-    handleScrollDown()
     setInputText('')
   }
   const postName = async () => {
