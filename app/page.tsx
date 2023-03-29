@@ -18,6 +18,7 @@ export default function Home() {
   let [claimName, setClaimName] = useState(true) // sets claim name mode
   let [nameText, setNameText] = useState('') // sets text entry into state
   let [names, setNames]: any[] = useState([]) // pulls and updates all
+  let [atBottom, setAtBottom] = useState(false)
 
   const bottom: any = useRef(null)
   let isMobile: any
@@ -80,7 +81,7 @@ export default function Home() {
         color: color
       })
     }
-    // bottom.current?.scrollIntoView(false)
+    handleScrollDown()
     setInputText('')
   }
   const postName = async () => {
@@ -173,6 +174,16 @@ export default function Home() {
   const handleSelectEffect = (event: any) => {
     setClaimName(false)
   }
+  const handleScrollDown = (event: any) => {
+    bottom.current?.scrollIntoView(false)
+  }
+  const handleCheckIfScrolledDown = (event: any) => {
+   if (bottom.current?.getBoundingClientRect().top > 590) {
+    setAtBottom(false)
+   } else {
+    setAtBottom(true)
+   }
+  }
 
   // footer listeners
   const handleSendMessage = (event: any) => {
@@ -228,10 +239,11 @@ export default function Home() {
 
   return (
     <div className='app'>
-      <Header selectEffect={handleSelectEffect} claimName={handleClaimName} />
+      <Header scrollDown={handleScrollDown} isScrolledDown={atBottom}
+      selectEffect={handleSelectEffect} claimName={handleClaimName} />
       <br /><br />
       <div className='outer-wrapper'><div className='outer-div'>
-        <div className='message-scroll'>
+        <div className='message-scroll' onScroll={handleCheckIfScrolledDown}>
           {mappedMessages}
           <div className='hidden-end' ref={bottom}></div>
         </div></div>
