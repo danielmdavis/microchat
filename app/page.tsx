@@ -78,7 +78,7 @@ export default function Home() {
       time: new Date(),
       color: color
     })
-    bottom.current?.scrollIntoView(false)
+    // bottom.current?.scrollIntoView(false)
     setInputText('')
   }
   const postName = async () => {
