@@ -112,7 +112,10 @@ export default function Home() {
 
   const compareForUpdate = () => {
     const messagesList = messagesChange[0]?._snapshot.docChanges
-    const difference = messages?.length - messagesList?.length
+    const diffOfMessages = messages?.length - messagesList?.length
+    const namesList = namesChange[0]?._snapshot.docChanges
+    const diffOfNames = names?.length - namesList?.length
+    const difference = Math.abs(diffOfMessages) + Math.abs(diffOfNames)
     return difference
   }
 
@@ -125,13 +128,13 @@ export default function Home() {
     const sendMessage = document.getElementById('sendMessage')
     if (sendMessage !== null) { sendMessage.blur() }
     isMobile = navigator?.userAgentData?.mobile
-    bottom.current?.scrollIntoView(false)
+    // bottom.current?.scrollIntoView(false)
   }, [])
   useMemo(() => {    
     getAllMessages() 
     getAllNames()
     console.log(names)
-    bottom.current?.scrollIntoView(false)
+    // bottom.current?.scrollIntoView(false)
   }, [compareForUpdate()])
 
   // jsx builders
