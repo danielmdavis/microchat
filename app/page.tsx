@@ -1,6 +1,6 @@
 'use client'
 import _ from 'lodash'
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
@@ -10,13 +10,14 @@ import Header from './headerComponent'
 
 export default function Home() {
 
-  let [messages, setMessages]: any[] = useState([])
-  let [names, setNames]: any[] = useState([])
-  let [inputText, setInputText] = useState('')
   let [myIp, setMyIp] = useState('')
-  let [nameText, setNameText] = useState('')
+  let [user, setUser] = useState({ ip: '', name: '', color: ''})
+  let [inputText, setInputText] = useState('') // sets text entry into state
+  let [messages, setMessages]: any[] = useState([]) // pulls and updates all
   let [colorText, setColorText] = useState('white')
-  let [claimName, setClaimName] = useState(true)
+  let [claimName, setClaimName] = useState(true) // sets claim name mode
+  let [nameText, setNameText] = useState('') // sets text entry into state
+  let [names, setNames]: any[] = useState([]) // pulls and updates all
 
   const bottom: any = useRef(null)
   let isMobile: any
@@ -47,6 +48,13 @@ export default function Home() {
   //   })
   // })
   
+  // middleware get current user method
+  const getUser = () => {
+    const user = names.find((nomen: any) => nomen.ip === myIp) 
+    setUser(user)
+  }
+
+  // middleware get all method
   const getAllMessages = async () => {
     const messagesCollection = collection(db, 'messages')
     const query = await getDocs(messagesCollection)
@@ -58,16 +66,12 @@ export default function Home() {
     const query = await getDocs(namesCollection)
     const namesList = query.docs.map((doc: any) => doc.data())
     setNames(namesList)
+    getUser()
   }
   
-  useMemo(() => { // gets and sets as described above. efficiency issues should never present meaningful problem at anticipated scale
-    getAllMessages() 
-    getAllNames()
-  }, [messagesChange, namesChange])
-  
+  // middleware post one methods
   const postOne = async () => {
-    const poster = names.find((item: any) => myIp === item.ip)
-    const color = poster?.color !== undefined ? poster.color : 'white'
+    const color = user?.color !== undefined ? user.color : 'white'
     await addDoc(collection(db, 'messages'), {
       name: myIp,
       message: inputText,
@@ -78,8 +82,7 @@ export default function Home() {
     setInputText('')
   }
   const postName = async () => {
-    const poster = names.find((item: any) => myIp === item.ip)
-    const color = poster?.color ? poster.color : 'white'
+    const color = user?.color ? user.color : 'white'
     if (!names.find((nomen: any) => nomen.name === nameText)) {
       await setDoc(doc(db, 'names', myIp), {
         name: nameText,
@@ -89,23 +92,14 @@ export default function Home() {
     }
   }
   const postColor = async () => {
-    const poster = names.find((item: any) => myIp === item.ip)
-    const nomen = poster?.name ? poster.name : ''
+    const nomen = user?.name ? user.name : ''
     await setDoc(doc(db, 'names', myIp), {
       ip: myIp,
       name: nomen,
       color: colorText
     })
   }
-
-  useEffect(() => { 
-    getMyIp()
-    const sendMessage = document.getElementById('sendMessage')
-    if (sendMessage !== null) { sendMessage.blur() }
-    bottom.current?.scrollIntoView(false)
-    isMobile = navigator?.userAgentData?.mobile
-  }, [])
-
+  // get from external
   const getMyIp = () => {
     fetch('https://api64.ipify.org?format=json', {
   })
@@ -115,7 +109,19 @@ export default function Home() {
       setNameText(res.ip)
     })
   }
+  // runs middleware get all methods
+  useEffect(() => { // gets and sets as described above. efficiency issues should never present meaningful problem at anticipated scale
+    getAllMessages() 
+    getAllNames()
+    getMyIp()
+    getUser()
+    const sendMessage = document.getElementById('sendMessage')
+    if (sendMessage !== null) { sendMessage.blur() }
+    isMobile = navigator?.userAgentData?.mobile
+    bottom.current?.scrollIntoView(false)
+  }, [])
 
+  // jsx builders
   const nameTextReplace = (ip: string) => {
     let goodName: string 
     let nameStyle: string
@@ -128,7 +134,6 @@ export default function Home() {
     }
     return [goodName, nameStyle]
   }
-
   let id = 0
   let mappedMessages = messages?.map((item: any) => {
   id += 1
@@ -161,9 +166,6 @@ export default function Home() {
       postOne()
     }
   }
-  const handleClickSendMessage = (event: any) => {
-    postOne()
-  }
   const handleSetName = (event: any) => {
     if (event.key === 'Enter') {
       postName()
@@ -172,17 +174,20 @@ export default function Home() {
       if (nameClaim !== null) { nameClaim.blur() }
     }
   }
+  const handleSetColor = (event: any) => {
+    if (event.key === 'Enter') {
+      postColor()
+    }
+  }
   // footer listeners (button)
+  const handleClickSendMessage = (event: any) => {
+    postOne()
+  }
   const handleClickSetName = (event: any) => {
     postName()
     getAllNames()
     const nameClaim = document.getElementById('nameClaim')
     if (nameClaim !== null) { nameClaim.blur() }
-  }
-  const handleSetColor = (event: any) => {
-    if (event.key === 'Enter') {
-      postColor()
-    }
   }
   const handleClickSetColor = (event: any) => {
       postColor()
