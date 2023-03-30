@@ -175,6 +175,7 @@ export default function Home() {
   const handleSelectEffect = (event: any) => {
     setClaimName(false)
   }
+  //    //
   const handleScrollDown = (event: any) => {
     bottom.current?.scrollIntoView(false)
   }
@@ -188,8 +189,11 @@ export default function Home() {
 
   // footer listeners
   const handleSendMessage = (event: any) => {
-    if (event.key === 'Enter') {
+    if (event?.key === 'Enter') {
       postOne()
+    } else if (event?.key === 'ArrowDown') {
+      console.log('baz')
+      bottom.current?.scrollIntoView(false)      
     }
   }
   const handleSetName = (event: any) => {

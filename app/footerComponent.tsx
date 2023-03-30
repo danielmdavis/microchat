@@ -35,7 +35,7 @@ export function NameFooter(props: FooterProps) {
           <BottomButton scrollDown={props.scrollDown} isScrolledDown={props.isScrolledDown} />
         </div>
         <div className='footer-inner'>
-          <input id='sendMessage' className='textbox' enterKeyHint='go' 
+          <input autoComplete='off' id='sendMessage' className='textbox' enterKeyHint='go' 
           onChange={(event) => {props.setInputText(event.target.value)}} value={props.inputText} onKeyDown={props.sendMessage} />
           <button className='mobile-submit' style={{ marginBottom: '6px'}} onClick={props.clickSendMessage}>↵</button>
         </div>
@@ -52,7 +52,7 @@ export function NameFooter(props: FooterProps) {
           <BottomButton scrollDown={props.scrollDown} isScrolledDown={props.isScrolledDown} />
         </div>
         <div className='footer-inner'>
-          <input id='sendMessage' className='textbox-browser' enterKeyHint='go' 
+          <input autoComplete='off' id='sendMessage' className='textbox-browser' enterKeyHint='go' 
           onChange={(event) => {props.setInputText(event.target.value)}} value={props.inputText} onKeyDown={props.sendMessage} />
         </div>
       </div>
@@ -74,7 +74,7 @@ export function EffectFooter(props: FooterProps) {
           <BottomButton scrollDown={props.scrollDown} isScrolledDown={props.isScrolledDown} />
         </div>
         <div className='footer-inner'>
-          <input id='sendMessage' className='textbox' enterKeyHint='go' 
+          <input autoComplete='off' id='sendMessage' className='textbox' enterKeyHint='go' 
           onChange={(event) => {props.setInputText(event.target.value)}} 
           value={props.inputText} onKeyDown={props.sendMessage} />
           <button className='mobile-submit' style={{ marginBottom: '6px'}} onClick={props.clickSendMessage}>↵</button>
@@ -92,7 +92,7 @@ export function EffectFooter(props: FooterProps) {
           <BottomButton scrollDown={props.scrollDown} isScrolledDown={props.isScrolledDown} />
         </div>
         <div className='footer-inner'>
-          <input id='sendMessage' className='textbox-browser' enterKeyHint='go' 
+          <input autoComplete='off' id='sendMessage' className='textbox-browser' enterKeyHint='go' 
           onChange={(event) => {props.setInputText(event.target.value)}} value={props.inputText} onKeyDown={props.sendMessage} />
         </div>
       </div>
