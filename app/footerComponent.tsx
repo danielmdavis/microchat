@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import BottomButton from './bottomButtonComponent'
 
 interface FooterProps {
   isMobile: boolean,
@@ -14,7 +14,9 @@ interface FooterProps {
   setName: any,
   clickSendMessage: any,
   clickSetName: any,
-  clickSetColor: any
+  clickSetColor: any,
+  scrollDown: any,
+  isScrolledDown: boolean
 }
 
 
@@ -30,6 +32,7 @@ export function NameFooter(props: FooterProps) {
           value={props.nameText} onKeyDown={props.setName} maxLength={16} />
           <button className='mobile-submit' onClick={props.clickSetName}>↵</button>&nbsp;
           <div className='label' style={{ width: '50px' }}>claim a name</div>
+          <BottomButton scrollDown={props.scrollDown} isScrolledDown={props.isScrolledDown} />
         </div>
         <div className='footer-inner'>
           <input id='sendMessage' className='textbox' enterKeyHint='go' 
@@ -46,6 +49,7 @@ export function NameFooter(props: FooterProps) {
           onChange={(event) => {props.setNameText(event.target.value)}} onFocus={(event) => {event.target.select()}} 
           value={props.nameText} onKeyDown={props.setName} maxLength={20} />&nbsp;
           <div style={{ fontSize: '1.25em', fontStyle: 'italic'}}>claim a name</div>
+          <BottomButton scrollDown={props.scrollDown} isScrolledDown={props.isScrolledDown} />
         </div>
         <div className='footer-inner'>
           <input id='sendMessage' className='textbox-browser' enterKeyHint='go' 
@@ -67,6 +71,7 @@ export function EffectFooter(props: FooterProps) {
           value={props.colorText} onKeyDown={props.setColor} maxLength={16} />
           <button className='mobile-submit' onClick={props.clickSetName}>↵</button>&nbsp;
           <div className='label' style={{ width: '60px' }}>select an effect</div>
+          <BottomButton scrollDown={props.scrollDown} isScrolledDown={props.isScrolledDown} />
         </div>
         <div className='footer-inner'>
           <input id='sendMessage' className='textbox' enterKeyHint='go' 
@@ -84,6 +89,7 @@ export function EffectFooter(props: FooterProps) {
           onChange={(event) => {props.setColorText(event.target.value)}} onFocus={(event) => {event.target.select()}} 
           value={props.colorText} onKeyDown={props.setColor} maxLength={35} />&nbsp;
           <div style={{ fontSize: '1.25em', fontStyle: 'italic'}}>select an effect</div>
+          <BottomButton scrollDown={props.scrollDown} isScrolledDown={props.isScrolledDown} />
         </div>
         <div className='footer-inner'>
           <input id='sendMessage' className='textbox-browser' enterKeyHint='go' 

@@ -179,7 +179,7 @@ export default function Home() {
     bottom.current?.scrollIntoView(false)
   }
   const handleCheckIfScrolledDown = (event: any) => {
-   if (bottom.current?.getBoundingClientRect().top > 590) {
+   if (bottom.current?.getBoundingClientRect().top > 1050) {
     setAtBottom(false)
    } else {
     setAtBottom(true)
@@ -228,20 +228,21 @@ export default function Home() {
   clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
   setNameText={setNameText} setInputText={setInputText}
   nameText={nameText} inputText={inputText}
-  colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} setColorText={setColorText} />
+  colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} setColorText={setColorText} 
+  scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
   :
   <EffectFooter isMobile={isMobile} nameClaim={claimName} 
   sendMessage={handleSendMessage} setName={handleSetName} 
   clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
   setColorText={setColorText} setInputText={setInputText}
   colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} inputText={inputText} 
-  nameText={nameText} setNameText={setNameText} />
+  nameText={nameText} setNameText={setNameText} 
+  scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
 
 
   return (
     <div className='app'>
-      <Header scrollDown={handleScrollDown} isScrolledDown={atBottom}
-      selectEffect={handleSelectEffect} claimName={handleClaimName} />
+      <Header selectEffect={handleSelectEffect} claimName={handleClaimName} />
       <br /><br />
       <div className='outer-wrapper'><div className='outer-div'>
         <div className='message-scroll' onScroll={handleCheckIfScrolledDown}>
