@@ -44,8 +44,17 @@ body {
 }
 .icon {
  margin-left: 15px;
- height: 20px;
- width: 20px;
+ height: 25px;
+ width: 25px;
+}
+.icon:hover {
+  animation: 1s blinker ease-in infinite;
+}
+
+@keyframes blinker { 
+  0% { opacity: 1.0; } 
+  50% { opacity: 0.75; } 
+  100% { opacity: 1.0;} 
 }
 .selected {
   border: 1px solid var(--white);

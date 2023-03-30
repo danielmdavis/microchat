@@ -203,6 +203,8 @@ export default function Home() {
   const handleSetColor = (event: any) => {
     if (event.key === 'Enter') {
       postColor()
+      const nameClaim = document.getElementById('nameClaim')
+      if (nameClaim !== null) { nameClaim.blur() }
     }
   }
   // footer listeners (button)
