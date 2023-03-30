@@ -129,10 +129,12 @@ export default function Home() {
     if (sendMessage !== null) { sendMessage.blur() }
     isMobile = navigator?.userAgentData?.mobile
     // bottom.current?.scrollIntoView(false)
+    console.log('foo')
   }, [])
   useMemo(() => {    
     getAllMessages() 
     getAllNames()
+    console.log('bar')
   }, [compareForUpdate()])
 
   // jsx builders
