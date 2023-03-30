@@ -1,7 +1,7 @@
+import { useEffect } from 'react'
 import BottomButton from './bottomButtonComponent'
 
 interface FooterProps {
-  isMobile: boolean,
   nameClaim: boolean,
   nameText: string,
   setNameText: any,
@@ -23,7 +23,12 @@ interface FooterProps {
 
 export function NameFooter(props: FooterProps) {
 
-  if (props.isMobile) {
+  let isMobile: any = false
+  useEffect(() => {
+    isMobile = navigator?.userAgentData?.mobile
+  })
+
+  if (isMobile) {
     return (
       <div className='footer'>
         <div className='footer-inner'>
@@ -62,7 +67,12 @@ export function NameFooter(props: FooterProps) {
 
 export function EffectFooter(props: FooterProps) {
 
-  if (props.isMobile) {
+  let isMobile: any = false
+  useEffect(() => {
+    isMobile = navigator?.userAgentData?.mobile
+  })
+
+  if (isMobile) {
     return (
       <div className='footer'>
         <div className='footer-inner'>

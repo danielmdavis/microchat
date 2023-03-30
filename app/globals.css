@@ -44,8 +44,8 @@ body {
 }
 .icon {
  margin-left: 15px;
- height: 25px;
- width: 25px;
+ height: 25px !important;
+ width: 25px !important;
 }
 .icon:hover {
   animation: 1s blinker ease-in infinite;

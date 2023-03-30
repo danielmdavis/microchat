@@ -21,7 +21,6 @@ export default function Home() {
   let [atBottom, setAtBottom] = useState(false)
 
   const bottom: any = useRef(null)
-  let isMobile: any
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyB-lNG6danS5wodEmWpVEmTFbcesdx3qfE",
@@ -127,7 +126,7 @@ export default function Home() {
     getUser()
     const sendMessage = document.getElementById('sendMessage')
     if (sendMessage !== null) { sendMessage.blur() }
-    isMobile = navigator?.userAgentData?.mobile
+    // isMobile = navigator?.userAgentData?.mobile
     // bottom.current?.scrollIntoView(false)
     console.log('foo')
   }, [])
@@ -226,10 +225,9 @@ export default function Home() {
       const nameClaim = document.getElementById('nameClaim')
       if (nameClaim !== null) { nameClaim.blur() }
   }
-
-  const whichFooter = claimName // share props on the component end, making the jsx side very bloated
+  const footerSelector = claimName // share props on the component end, making the jsx side very bloated
   ?
-  <NameFooter isMobile={isMobile} nameClaim={claimName} 
+  <NameFooter nameClaim={claimName} 
   sendMessage={handleSendMessage} setName={handleSetName} 
   clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
   setNameText={setNameText} setInputText={setInputText}
@@ -237,14 +235,13 @@ export default function Home() {
   colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} setColorText={setColorText} 
   scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
   :
-  <EffectFooter isMobile={isMobile} nameClaim={claimName} 
+  <EffectFooter nameClaim={claimName} 
   sendMessage={handleSendMessage} setName={handleSetName} 
   clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
   setColorText={setColorText} setInputText={setInputText}
   colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} inputText={inputText} 
   nameText={nameText} setNameText={setNameText} 
   scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
-
 
   return (
     <div className='app'>
@@ -257,7 +254,7 @@ export default function Home() {
         </div></div>
       </div>
       <div style={{ height: '90px' }} /> 
-      {whichFooter}
+      {footerSelector}
     </div>
   )
 }
