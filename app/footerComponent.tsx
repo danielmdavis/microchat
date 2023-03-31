@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+'use client'
+import { useEffect, useState } from 'react'
 import BottomButton from './bottomButtonComponent'
 
 interface FooterProps {
@@ -19,13 +20,15 @@ interface FooterProps {
   isScrolledDown: boolean
 }
 
-
-
 export function NameFooter(props: FooterProps) {
 
-  let isMobile: any = false
+  let [isMobile, setIsMobile] = useState(false)
+
   useEffect(() => {
-    isMobile = navigator?.userAgentData?.mobile
+    const mobility = navigator?.userAgentData?.mobile
+    if (mobility) {
+      setIsMobile(mobility)
+    }
   })
 
   if (isMobile) {
@@ -63,13 +66,18 @@ export function NameFooter(props: FooterProps) {
       </div>
     )
   }
+
 }
 
 export function EffectFooter(props: FooterProps) {
 
-  let isMobile: any = false
+  let [isMobile, setIsMobile] = useState(false)
+
   useEffect(() => {
-    isMobile = navigator?.userAgentData?.mobile
+    const mobility = navigator?.userAgentData?.mobile
+    if (mobility) {
+      setIsMobile(mobility)
+    }
   })
 
   if (isMobile) {
