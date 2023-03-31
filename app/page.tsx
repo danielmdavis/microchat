@@ -5,7 +5,8 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Message from './messageComponent'
-import { NameFooter, EffectFooter} from './footerComponent'
+import { NameFooter, EffectFooter } from './footerComponent'
+import { MobileNameFooter, MobileEffectFooter } from './mobileFooterComponent'
 import Header from './headerComponent'
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
   let [nameText, setNameText] = useState('') // sets text entry into state
   let [names, setNames]: any[] = useState([]) // pulls and updates all
   let [atBottom, setAtBottom] = useState(false)
+  let [isMobile, setIsMobile] = useState(false)
 
   const bottom: any = useRef(null)
 
@@ -126,14 +128,16 @@ export default function Home() {
     getUser()
     const sendMessage = document.getElementById('sendMessage')
     if (sendMessage !== null) { sendMessage.blur() }
-    // isMobile = navigator?.userAgentData?.mobile
-    // bottom.current?.scrollIntoView(false)
-    console.log('foo')
+    const mobility = navigator?.userAgentData?.mobile
+    if (mobility) {
+      setIsMobile(mobility)
+    }
+    console.log('Get user data')
   }, [])
   useMemo(() => {    
     getAllMessages() 
     getAllNames()
-    console.log('bar')
+    console.log('Get message data')
   }, [compareForUpdate()])
 
   // jsx builders
@@ -191,7 +195,6 @@ export default function Home() {
     if (event?.key === 'Enter') {
       postOne()
     } else if (event?.key === 'ArrowDown') {
-      console.log('baz')
       bottom.current?.scrollIntoView(false)      
     }
   }
@@ -225,23 +228,45 @@ export default function Home() {
       const nameClaim = document.getElementById('nameClaim')
       if (nameClaim !== null) { nameClaim.blur() }
   }
-  const footerSelector = claimName // share props on the component end, making the jsx side very bloated
-  ?
-  <NameFooter nameClaim={claimName} 
-  sendMessage={handleSendMessage} setName={handleSetName} 
-  clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
-  setNameText={setNameText} setInputText={setInputText}
-  nameText={nameText} inputText={inputText}
-  colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} setColorText={setColorText} 
-  scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
-  :
-  <EffectFooter nameClaim={claimName} 
-  sendMessage={handleSendMessage} setName={handleSetName} 
-  clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
-  setColorText={setColorText} setInputText={setInputText}
-  colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} inputText={inputText} 
-  nameText={nameText} setNameText={setNameText} 
-  scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
+
+  let footerSelector: any
+  if (isMobile) {
+    footerSelector = claimName // share props on the component end, making the jsx side very bloated
+    ?
+    <MobileNameFooter nameClaim={claimName} 
+    sendMessage={handleSendMessage} setName={handleSetName} 
+    clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
+    setNameText={setNameText} setInputText={setInputText}
+    nameText={nameText} inputText={inputText}
+    colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} setColorText={setColorText} 
+    scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
+    :
+    <MobileEffectFooter nameClaim={claimName} 
+    sendMessage={handleSendMessage} setName={handleSetName} 
+    clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
+    setColorText={setColorText} setInputText={setInputText}
+    colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} inputText={inputText} 
+    nameText={nameText} setNameText={setNameText} 
+    scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
+  } else {
+    footerSelector = claimName
+    ?
+    <NameFooter nameClaim={claimName} 
+    sendMessage={handleSendMessage} setName={handleSetName} 
+    clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
+    setNameText={setNameText} setInputText={setInputText}
+    nameText={nameText} inputText={inputText}
+    colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} setColorText={setColorText} 
+    scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
+    :
+    <EffectFooter nameClaim={claimName} 
+    sendMessage={handleSendMessage} setName={handleSetName} 
+    clickSendMessage={handleClickSendMessage} clickSetName={handleClickSetName} 
+    setColorText={setColorText} setInputText={setInputText}
+    colorText={colorText} setColor={handleSetColor} clickSetColor={handleClickSetColor} inputText={inputText} 
+    nameText={nameText} setNameText={setNameText} 
+    scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
+  }
 
   return (
     <div className='app'>
