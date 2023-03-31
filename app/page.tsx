@@ -4,10 +4,12 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
+
+import Header from './headerComponent'
 import Message from './messageComponent'
+import { Sidebar } from './browserSidebarComponent'
 import { NameFooter, EffectFooter } from './footerComponent'
 import { MobileNameFooter, MobileEffectFooter } from './mobileFooterComponent'
-import Header from './headerComponent'
 
 export default function Home() {
 
@@ -230,6 +232,7 @@ export default function Home() {
   }
 
   let footerSelector: any
+  let sidebarToggle: any
   if (isMobile) {
     footerSelector = claimName // share props on the component end, making the jsx side very bloated
     ?
@@ -249,6 +252,7 @@ export default function Home() {
     nameText={nameText} setNameText={setNameText} 
     scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
   } else {
+    sidebarToggle = <Sidebar />
     footerSelector = claimName
     ?
     <NameFooter nameClaim={claimName} 
@@ -269,17 +273,22 @@ export default function Home() {
   }
 
   return (
+    <div className='sidebar-wrapper'>
     <div className='app'>
       <Header selectEffect={handleSelectEffect} claimName={handleClaimName} />
-      <br /><br />
-      <div className='outer-wrapper'><div className='outer-div'>
-        <div className='message-scroll' onScroll={handleCheckIfScrolledDown}>
-          {mappedMessages}
-          <div className='hidden-end' ref={bottom}></div>
-        </div></div>
+      <div style={{ height: '38px' }} /> 
+        
+        <div className='outer-wrapper'><div className='outer-div'>
+          <div className='message-scroll' onScroll={handleCheckIfScrolledDown}>
+            {mappedMessages}
+            <div className='hidden-end' ref={bottom}></div>
+          </div></div>
+        </div>
+        <div style={{ height: '90px' }} /> 
+        {footerSelector}
+
       </div>
-      <div style={{ height: '90px' }} /> 
-      {footerSelector}
-    </div>
+      {sidebarToggle}
+    </div> 
   )
 }

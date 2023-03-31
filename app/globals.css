@@ -29,44 +29,14 @@ body {
   position: relative;
 }
 
-.header-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: fixed;
-  top: 0;
-}
-.title {
-  -webkit-text-stroke: 1.25px white;
-  color: black;
-  font-size: 2.25em;
-  background-color: var(--black);
-}
-.icon {
- margin-left: 15px;
- height: 25px !important;
- width: 25px !important;
-}
-.icon:hover {
-  animation: 1s blinker ease-in infinite;
-}
-
-@keyframes blinker { 
-  0% { opacity: 1.0; } 
-  50% { opacity: 0.75; } 
-  100% { opacity: 1.0;} 
-}
-.selected {
-  border: 1px solid var(--white);
-  border-radius: 6px;
-  padding: 4px;
-}
-
+/* full page arrangement stuff - hacky but stable, proceed with caution */
 .outer-wrapper, .outer-div {
   /* smaller val shifts boxes, background, and scrollbox bottom down */
   height: calc(100vh - 190px);
   max-height: 1000px;
   margin: 0em;
+  display: flex;
+  flex-direction: column;
 }
 .message-scroll {
   height: 100%;
@@ -74,6 +44,8 @@ body {
   overflow-y: auto;
 }
 
+
+/* message component stuff */
 .message {
   width: 500px;
   max-width: 90vw;
@@ -85,7 +57,6 @@ body {
   margin: 4px;
   font-weight: 400;
 }
-
 .ip {
   width: 235px;
   height: 25px;
@@ -98,7 +69,6 @@ body {
   font-family: 'Libre Bodoni';
   font-size: 1em;
 }
-
 .name-good {
   font-weight: bold;
   color: var(--red);
@@ -114,15 +84,23 @@ body {
   color: var(--white);
 }
 
-.label {
-  font-family: 'Roboto';
-  text-align: center;
-  font-size: 0.8em;
-  border: 2px solid var(--white);
-  border-radius: 6px;
-  height: 29px;
+
+/* header */
+.header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  top: 0;
+}
+.title {
+  -webkit-text-stroke: 1.25px white;
+  color: black;
+  font-size: 2.25em;
+  background-color: var(--black);
 }
 
+/* footer */
 .textbox, .textbox-browser {
   margin: 6px;
   margin-bottom: 12px;
@@ -143,18 +121,6 @@ body {
   width: 504px;
   max-width: 90vw;
 }
-
-.mobile-submit {
-  height: 33px;
-  border: 2px solid var(--white);
-  background-color: var(--white);
-  color: var(--black);
-  border-radius: 6px;
-  font-family: 'Libre Bodoni';
-  font-size: 1.25em;
-  margin-left: 0.75px;
-}
-
 .footer {
   bottom: 0%;
   position: absolute;
@@ -170,8 +136,6 @@ body {
 .bottom-button-transition {
   animation: fadeIn 0.75s;
 }
-
-
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
@@ -179,4 +143,64 @@ body {
 @keyframes fadeOut {
   0% { opacity: 1; }
   100% { opacity: 0; }
+}
+
+/* buttons, header and footer */
+.icon {
+margin-left: 15px;
+height: 25px !important;
+width: 25px !important;
+}
+.icon:hover {
+animation: 1s blinker ease-in infinite;
+}
+@keyframes blinker { 
+0% { opacity: 1.0; } 
+50% { opacity: 0.75; } 
+100% { opacity: 1.0;} 
+}
+.selected {
+border: 1px solid var(--white);
+border-radius: 6px;
+padding: 4px;
+}
+
+
+/* sidebar, browser only */
+.sidebar {
+  border: 1px solid var(--white);
+  border-radius: 6px;
+  max-height: 900px;
+  width: 100%;
+  align-self: left;
+  margin-top: 38px;
+  margin-left: 5px;
+  padding: 4px;
+}
+.sidebar-wrapper {
+  /* border: 1px solid var(--red); */
+  display: flex;
+  flex-direction: row;
+  width: 750px;
+}
+
+
+/* mobile only */
+.label {
+  font-family: 'Roboto';
+  text-align: center;
+  font-size: 0.8em;
+  border: 1px solid var(--white);
+  border-radius: 6px;
+  height: 29px;
+}
+.mobile-submit {
+  height: 33px;
+  border: 2px solid var(--white);
+  background-color: var(--white);
+  color: var(--black);
+  border-radius: 6px;
+  font-family: 'Libre Bodoni';
+  font-size: 1.25em;
+  margin-left: 0.75px;
 }
