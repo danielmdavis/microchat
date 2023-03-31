@@ -252,7 +252,7 @@ export default function Home() {
     nameText={nameText} setNameText={setNameText} 
     scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
   } else {
-    sidebarToggle = <Sidebar />
+    sidebarToggle = <Sidebar allUsers={names} currentUser={user} /> //      //
     footerSelector = claimName
     ?
     <NameFooter nameClaim={claimName} 

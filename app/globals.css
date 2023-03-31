@@ -28,6 +28,9 @@ body {
   align-items: left;
   position: relative;
 }
+.app::-webkit-scrollbar {
+  display: none;
+}
 
 /* full page arrangement stuff - hacky but stable, proceed with caution */
 .outer-wrapper, .outer-div {
@@ -175,13 +178,18 @@ padding: 4px;
   align-self: left;
   margin-top: 38px;
   margin-left: 5px;
-  padding: 4px;
+  padding: 6px;
 }
 .sidebar-wrapper {
   /* border: 1px solid var(--red); */
   display: flex;
   flex-direction: row;
-  width: 750px;
+  width: 775px;
+}
+.sidebar-title {
+  font-weight: 700;
+  font-size: 1.5em;
+  color: var(--red);
 }
 
 
