@@ -40,8 +40,8 @@ export default function Home() {
   // not using for data, just for sync. bc while I have parsing working for this hook it can only work in the top level scope, 
   // in which case it can't be made to set state without an infinite loop, prevention of which also blocks the open listening 
   // which is the whole point. so instead it's simply used to register a change and fire the conventional getter hook.
-  const messagesChange: any = useCollection(collection(db, 'messages')) 
-  const namesChange: any = useCollection(collection(db, 'names'))
+  // const messagesChange: any = useCollection(collection(db, 'messages')) 
+  // const namesChange: any = useCollection(collection(db, 'names'))
   // const messagesList = messagesChange[0]?._snapshot.docChanges
   // const parsedMessages = messagesList?.map((item: any) => {
   //   const doc = item.doc.data.value.mapValue.fields
@@ -75,6 +75,7 @@ export default function Home() {
   
   // middleware post one methods
   const postOne = async () => {
+  
     const color = user?.color !== undefined ? user.color : 'white'
     if (inputText.length > 0) {
       await addDoc(collection(db, 'messages'), {
@@ -116,11 +117,16 @@ export default function Home() {
   }
 
   const compareForUpdate = () => {
+    const messagesChange: any = useCollection(collection(db, 'messages')) 
     const messagesList = messagesChange[0]?._snapshot.docChanges
     const diffOfMessages = messages?.length - messagesList?.length
+    console.log(messagesList?.length)
+    console.log(messages?.length)
+    const namesChange: any = useCollection(collection(db, 'names'))
     const namesList = namesChange[0]?._snapshot.docChanges
     const diffOfNames = names?.length - namesList?.length
     const difference = Math.abs(diffOfMessages) + Math.abs(diffOfNames)
+    // console.log(difference)
     return difference
   }
 

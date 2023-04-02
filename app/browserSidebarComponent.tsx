@@ -28,7 +28,10 @@ export function Sidebar(props: SidebarProps) {
       <div className='sidebar-title'>all users ever</div>
       {userList}
       <br />
-      <div style={{ fontStyle: 'italic' }} className='sidebar-title'>sidebar is a wip</div>
+      <div className='sidebar-title'>tips & tricks</div>
+      as an alternative to the [↓] button, press the down arrow on your keyboard while typing in the main text entry to jump to the most recent message. <br /><br />
+      this is not generally considered a good long term solution. our top scientists are currently searching for the cure. <br /><br /> 
+      <div style={{ fontStyle: 'italic' }} className='sidebar-title'>sidebar is wip</div>
     </div>
   )
 }
