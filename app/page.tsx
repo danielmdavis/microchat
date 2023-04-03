@@ -44,6 +44,7 @@ export default function Home() {
   const messagesChange: any = useCollection(collection(db, 'messages')) 
   const namesChange: any = useCollection(collection(db, 'names'))
   // const messagesList = messagesChange[0]?._snapshot.docChanges
+
   // const parsedMessages = messagesList?.map((item: any) => {
   //   const doc = item.doc.data.value.mapValue.fields
   //   return ({
@@ -118,13 +119,13 @@ export default function Home() {
   }
 
   const compareForUpdate = () => {
-    // const messagesChange: any = useCollection(collection(db, 'messages')) 
-    const messagesList = messagesChange[0]?._snapshot.docChanges
+    const messagesChange: any = useCollection(collection(db, 'messages')) 
+    const messagesList = messagesChange[0]?.docs
     const diffOfMessages = messages?.length - messagesList?.length
-    console.log(messagesList?.length)
-    console.log(messages?.length)
-    // const namesChange: any = useCollection(collection(db, 'names'))
-    const namesList = namesChange[0]?._snapshot.docChanges
+    // console.log('collection hook: ' + messagesList?.length)
+    // console.log('effect hook: ' + messages?.length)
+    const namesChange: any = useCollection(collection(db, 'names'))
+    const namesList = namesChange[0]?.docs
     const diffOfNames = names?.length - namesList?.length
     const difference = Math.abs(diffOfMessages) + Math.abs(diffOfNames)
     return difference
