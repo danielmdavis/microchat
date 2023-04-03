@@ -23,6 +23,7 @@ export default function Home() {
   let [names, setNames]: any[] = useState([]) // pulls and updates all
   let [atBottom, setAtBottom] = useState(false)
   let [isMobile, setIsMobile] = useState(false)
+  let [sidebarMaxHeight, setSidebarMaxHeight] = useState(0)
 
   const bottom: any = useRef(null)
 
@@ -40,8 +41,8 @@ export default function Home() {
   // not using for data, just for sync. bc while I have parsing working for this hook it can only work in the top level scope, 
   // in which case it can't be made to set state without an infinite loop, prevention of which also blocks the open listening 
   // which is the whole point. so instead it's simply used to register a change and fire the conventional getter hook.
-  // const messagesChange: any = useCollection(collection(db, 'messages')) 
-  // const namesChange: any = useCollection(collection(db, 'names'))
+  const messagesChange: any = useCollection(collection(db, 'messages')) 
+  const namesChange: any = useCollection(collection(db, 'names'))
   // const messagesList = messagesChange[0]?._snapshot.docChanges
   // const parsedMessages = messagesList?.map((item: any) => {
   //   const doc = item.doc.data.value.mapValue.fields
@@ -117,16 +118,15 @@ export default function Home() {
   }
 
   const compareForUpdate = () => {
-    const messagesChange: any = useCollection(collection(db, 'messages')) 
+    // const messagesChange: any = useCollection(collection(db, 'messages')) 
     const messagesList = messagesChange[0]?._snapshot.docChanges
     const diffOfMessages = messages?.length - messagesList?.length
     console.log(messagesList?.length)
     console.log(messages?.length)
-    const namesChange: any = useCollection(collection(db, 'names'))
+    // const namesChange: any = useCollection(collection(db, 'names'))
     const namesList = namesChange[0]?._snapshot.docChanges
     const diffOfNames = names?.length - namesList?.length
     const difference = Math.abs(diffOfMessages) + Math.abs(diffOfNames)
-    // console.log(difference)
     return difference
   }
 
@@ -134,6 +134,10 @@ export default function Home() {
   useEffect(() => { // gets and sets as described above. efficiency issues should never present meaningful problem at anticipated scale
     getMyIp()
     getUser()
+    const messagesHeight = document.getElementById('outerWrapper')?.clientHeight
+    if (messagesHeight !== undefined) {
+      setSidebarMaxHeight(messagesHeight)
+    }   
     const sendMessage = document.getElementById('sendMessage')
     if (sendMessage !== null) { sendMessage.blur() }
     const mobility = navigator?.userAgentData?.mobile
@@ -258,7 +262,7 @@ export default function Home() {
     nameText={nameText} setNameText={setNameText} 
     scrollDown={handleScrollDown} isScrolledDown={atBottom}/>
   } else {
-    sidebarToggle = <Sidebar allUsers={names} currentUser={user} /> //      //
+    sidebarToggle = <Sidebar allUsers={names} currentUser={user} maxHeight={sidebarMaxHeight} /> //      //
     footerSelector = claimName
     ?
     <NameFooter nameClaim={claimName} 
@@ -282,9 +286,9 @@ export default function Home() {
     <div className='sidebar-wrapper'>
     <div className='app'>
       <Header selectEffect={handleSelectEffect} claimName={handleClaimName} />
-      <div style={{ height: '38px' }} /> 
+      <div className='test-border' style={{ height: '38px' }} /> 
         
-        <div className='outer-wrapper'><div className='outer-div'>
+        <div id='outerWrapper' className='outer-wrapper'><div className='outer-div'>
           <div className='message-scroll' onScroll={handleCheckIfScrolledDown}>
             {mappedMessages}
             <div className='hidden-end' ref={bottom}></div>
