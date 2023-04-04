@@ -121,10 +121,10 @@ export default function Home() {
   }
 
   const compareForUpdate = () => {
-    const messagesChange: any = useCollection(collection(db, 'messages')) 
+    // const messagesChange: any = useCollection(collection(db, 'messages')) 
     const messagesList = messagesChange[0]?.docs
     const diffOfMessages = messages?.length - messagesList?.length
-    const namesChange: any = useCollection(collection(db, 'names'))
+    // const namesChange: any = useCollection(collection(db, 'names'))
     const namesList = namesChange[0]?.docs
     const diffOfNames = names?.length - namesList?.length
     const changeOfNames = _.isMatch(names?.map((item: any) => item.name), namesList?.map((item: any) => item._document.data.value.mapValue.fields.name.stringValue))
