@@ -130,8 +130,8 @@ export default function Home() {
     const changeOfNames = _.isMatch(names?.map((item: any) => item.name), namesList?.map((item: any) => item._document.data.value.mapValue.fields.name.stringValue))
     const changeOfColors = _.isMatch(names?.map((item: any) => item.color), namesList?.map((item: any) => item._document.data.value.mapValue.fields.color?.stringValue))
     console.log(changeOfNames)
-    console.log(names?.map(item => item.name))
-    console.log(namesList?.map(item => item._document.data.value.mapValue.fields.name.stringValue))
+    console.log(names?.map((item: any) => item.name))
+    console.log(namesList?.map((item: any) => item._document.data.value.mapValue.fields.name.stringValue))
     const difference = !!Math.abs(diffOfMessages) || !changeOfColors || !changeOfNames
     return difference
   }
