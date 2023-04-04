@@ -77,7 +77,6 @@ export default function Home() {
   
   // middleware post one methods
   const postOne = async () => {
-  
     const color = user?.color !== undefined ? user.color : 'white'
     if (inputText.length > 0) {
       await addDoc(collection(db, 'messages'), {
@@ -90,7 +89,8 @@ export default function Home() {
     setInputText('')
   }
   const postName = async () => {
-    const color = user?.color ? user.color : 'white'
+    const currentUser = names?.find((user: any) => user.ip === myIp) 
+    const color = currentUser.color ? currentUser.color : ''
     if (!names.find((nomen: any) => nomen.name === nameText) && nameText.length > 0) {
       await setDoc(doc(db, 'names', myIp), {
         name: nameText,
@@ -100,13 +100,15 @@ export default function Home() {
     }
   }
   const postColor = async () => {
-    const nomen = user?.name ? user.name : ''
+    const currentUser = names?.find((user: any) => user.ip === myIp) 
+    const nomen = currentUser.name ? currentUser.name : currentUser.ip
     await setDoc(doc(db, 'names', myIp), {
       ip: myIp,
       name: nomen,
       color: colorText
     })
   }
+
   // get from external
   const getMyIp = () => {
     fetch('https://api64.ipify.org?format=json', {
@@ -122,17 +124,12 @@ export default function Home() {
     const messagesChange: any = useCollection(collection(db, 'messages')) 
     const messagesList = messagesChange[0]?.docs
     const diffOfMessages = messages?.length - messagesList?.length
-    // console.log('collection hook: ' + messagesList?.length)
-    // console.log('effect hook: ' + messages?.length)
     const namesChange: any = useCollection(collection(db, 'names'))
     const namesList = namesChange[0]?.docs
     const diffOfNames = names?.length - namesList?.length
     const changeOfNames = _.isMatch(names?.map((item: any) => item.name), namesList?.map((item: any) => item._document.data.value.mapValue.fields.name.stringValue))
     const changeOfColors = _.isMatch(names?.map((item: any) => item.color), namesList?.map((item: any) => item._document.data.value.mapValue.fields.color?.stringValue))
-    console.log(changeOfNames)
-    console.log(names?.map((item: any) => item.name))
-    console.log(namesList?.map((item: any) => item._document.data.value.mapValue.fields.name.stringValue))
-    const difference = !!Math.abs(diffOfMessages) || !changeOfColors || !changeOfNames
+    const difference = !!Math.abs(diffOfMessages) || !!Math.abs(diffOfNames) || !changeOfColors || !changeOfNames
     return difference
   }
 
@@ -228,6 +225,7 @@ export default function Home() {
   const handleSetColor = (event: any) => {
     if (event.key === 'Enter') {
       postColor()
+      getAllNames()
       const nameClaim = document.getElementById('nameClaim')
       if (nameClaim !== null) { nameClaim.blur() }
     }
