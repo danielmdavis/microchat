@@ -121,10 +121,8 @@ export default function Home() {
   }
 
   const compareForUpdate = () => {
-    // const messagesChange: any = useCollection(collection(db, 'messages')) 
     const messagesList = messagesChange[0]?.docs
     const diffOfMessages = messages?.length - messagesList?.length
-    // const namesChange: any = useCollection(collection(db, 'names'))
     const namesList = namesChange[0]?.docs
     const diffOfNames = names?.length - namesList?.length
     const changeOfNames = _.isMatch(names?.map((item: any) => item.name), namesList?.map((item: any) => item._document.data.value.mapValue.fields.name.stringValue))
@@ -210,6 +208,9 @@ export default function Home() {
   const handleSendMessage = (event: any) => {
     if (event?.key === 'Enter') {
       postOne()
+      const innerMessages = document.getElementById('innerMessages')
+      // setTimeout(() => {innerMessages?.scroll(0, 50000)}, 5)
+      setTimeout(() => {bottom.current?.scrollIntoView(false)  }, 5)
     } else if (event?.key === 'ArrowDown') {
       bottom.current?.scrollIntoView(false)      
     }
@@ -294,7 +295,7 @@ export default function Home() {
       <div className='test-border' style={{ height: '38px' }} /> 
         
         <div id='outerWrapper' className='outer-wrapper'><div className='outer-div'>
-          <div className='message-scroll' onScroll={handleCheckIfScrolledDown}>
+          <div id='innerMessages' className='message-scroll' onScroll={handleCheckIfScrolledDown}>
             {mappedMessages}
             <div className='hidden-end' ref={bottom}></div>
           </div></div>
